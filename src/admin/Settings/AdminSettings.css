@@ -1,0 +1,163 @@
+/* ===================================
+   ADMIN SETTINGS
+   =================================== */
+.admin-settings { display: flex; flex-direction: column; gap: 1.25rem; }
+
+.settings-layout { display: flex; flex-direction: column; gap: 1.25rem; }
+
+/* ===================================
+   SETTINGS CARD
+   =================================== */
+.settings-card { display: flex; flex-direction: column; gap: 1.5rem; }
+
+.settings-card__header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.settings-card__icon { font-size: 1.5rem; }
+
+.settings-card__title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.settings-card__sub {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+.settings-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.settings-fields .admin-form-group:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+
+.settings-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 0.5rem;
+}
+
+/* ===================================
+   DANGER ZONE
+   =================================== */
+.danger-zone {
+  border-color: rgba(239, 68, 68, 0.2) !important;
+  border-left: 3px solid #ef4444;
+}
+
+.danger-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #f87171;
+  margin-bottom: 1rem;
+}
+
+.danger-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.875rem 0;
+  border-bottom: 1px solid var(--color-border-light);
+  flex-wrap: wrap;
+}
+
+.danger-item:last-child { border-bottom: none; }
+
+.danger-item-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 3px;
+}
+
+.danger-item-desc {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+.danger-confirm {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.danger-confirm-text {
+  font-size: 0.82rem;
+  color: #f87171;
+  font-weight: 600;
+}
+
+/* ===================================
+   INFO CARD
+   =================================== */
+.info-card { }
+
+.info-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  margin-bottom: 1rem;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 14px;
+  background: var(--color-border-light);
+  border: 1px solid var(--color-border-light);
+  border-radius: 10px;
+}
+
+.info-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+}
+
+.info-value {
+  font-size: 0.82rem;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.info-value code {
+  background: var(--color-border);
+  color: #a855f7;
+  padding: 1px 7px;
+  border-radius: 5px;
+  font-size: 0.8rem;
+}
+
+/* ===================================
+   RESPONSIVE
+   =================================== */
+@media (max-width: 768px) {
+  .settings-fields { grid-template-columns: 1fr; }
+  .info-grid { grid-template-columns: 1fr; }
+}
