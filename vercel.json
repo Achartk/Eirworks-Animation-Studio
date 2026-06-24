@@ -1,4 +1,5 @@
 {
+  "name": "eirworks-animation-studio",
   "rewrites": [
     {
       "source": "/(.*)",

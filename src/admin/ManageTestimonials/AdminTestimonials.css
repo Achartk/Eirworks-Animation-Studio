@@ -1,0 +1,142 @@
+/* ===================================
+   ADMIN TESTIMONIALS MANAGER
+   =================================== */
+.admin-testimonials {
+  animation: fadeIn 0.4s ease;
+}
+
+.testimonials-grid-admin {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--spacing-md);
+  margin-top: 1rem;
+}
+
+.testimonial-edit-card {
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  transition: all var(--transition-base);
+  position: relative;
+}
+
+[data-theme='light'] .testimonial-edit-card {
+  background: white;
+  border-color: rgba(0, 0, 0, 0.05);
+}
+
+.testimonial-edit-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-border);
+  box-shadow: var(--shadow-card);
+}
+
+.t-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.t-card-rating {
+  display: flex;
+  gap: 2px;
+}
+
+.t-card-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.action-icon-btn {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-sm);
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  transition: all var(--transition-fast);
+}
+
+[data-theme='light'] .action-icon-btn {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.action-icon-btn:hover {
+  color: white;
+}
+
+.action-icon-btn.edit:hover {
+  background: var(--color-accent-1);
+  border-color: var(--color-accent-1);
+}
+
+.action-icon-btn.delete:hover {
+  background: #ef4444;
+  border-color: #ef4444;
+}
+
+.t-card-text {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  font-style: italic;
+  flex: 1;
+  margin: 0;
+}
+
+[data-theme='light'] .t-card-text {
+  color: #334155;
+}
+
+.t-card-author {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-top: var(--spacing-sm);
+  border-top: 1px solid var(--color-border-light);
+}
+
+.t-card-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  background: rgba(124, 58, 237, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.t-card-meta {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+}
+
+.t-card-name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.t-card-role {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+}
+
+/* Star rating picker */
+.rating-star-btn {
+  transition: transform 0.2s ease;
+}
+
+.rating-star-btn:hover {
+  transform: scale(1.15);
+}

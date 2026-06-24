@@ -119,9 +119,12 @@
 }
 
 .value-card__icon {
-  font-size: 2.5rem;
   margin-bottom: var(--spacing-md);
   display: block;
+}
+
+.value-icon-svg {
+  color: var(--color-accent-1);
 }
 
 .value-card__title {

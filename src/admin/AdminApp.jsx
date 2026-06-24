@@ -6,6 +6,8 @@ import AdminDashboard from './Dashboard/AdminDashboard'
 import AdminProjects from './ManageProjects/AdminProjects'
 import AdminServices from './ManageServices/AdminServices'
 import AdminSettings from './Settings/AdminSettings'
+import AdminTestimonials from './ManageTestimonials/AdminTestimonials'
+import AdminMessages from './ManageMessages/AdminMessages'
 import '../styles/index.css'
 import './AdminLayout/AdminLayout.css'
 
@@ -19,11 +21,13 @@ function AdminApp() {
 
   const renderAdminPage = () => {
     switch (adminPage) {
-      case 'dashboard': return <AdminDashboard />
-      case 'projects':  return <AdminProjects />
-      case 'services':  return <AdminServices />
-      case 'settings':  return <AdminSettings />
-      default:          return <AdminDashboard />
+      case 'dashboard':    return <AdminDashboard />
+      case 'projects':     return <AdminProjects />
+      case 'services':     return <AdminServices />
+      case 'testimonials': return <AdminTestimonials />
+      case 'messages':     return <AdminMessages />
+      case 'settings':     return <AdminSettings />
+      default:             return <AdminDashboard />
     }
   }
 

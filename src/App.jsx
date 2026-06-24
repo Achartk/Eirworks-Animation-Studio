@@ -8,6 +8,7 @@ import Home from './pages/Home/Home'
 import Services from './pages/Services/Services'
 import About from './pages/About/About'
 import Projects from './pages/Projects/Projects'
+import Contact from './pages/Contact/Contact'
 import AdminApp from './admin/AdminApp'
 import './styles/App.css'
 
@@ -39,6 +40,7 @@ function PublicSite() {
       case 'services': return <Services />
       case 'about':    return <About />
       case 'projects': return <Projects />
+      case 'contact':  return <Contact />
       default:         return <Home setActivePage={handleNav} />
     }
   }

@@ -121,3 +121,32 @@
   50% { transform: translateY(-8px); }
 }
 
+/* ===================================
+   RESPONSIVE
+   =================================== */
+@media (max-width: 600px) {
+  .floating-wa {
+    bottom: 20px;
+    right: 16px;
+    width: 52px;
+    height: 52px;
+  }
+
+  .floating-wa svg {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+/* iOS Safe Area Support */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .floating-wa {
+    bottom: calc(20px + env(safe-area-inset-bottom));
+  }
+
+  @media (max-width: 600px) {
+    .floating-wa {
+      bottom: calc(16px + env(safe-area-inset-bottom));
+    }
+  }
+}

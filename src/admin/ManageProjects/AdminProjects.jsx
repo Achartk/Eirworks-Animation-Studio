@@ -1,9 +1,45 @@
 import { useState, useRef } from 'react'
 import { useApp } from '../../context/AppContext'
+import { Palette, Globe, Zap, Film, Rocket, Leaf, Tent, Smartphone, Building, Gamepad2, Star, Sparkles, Target, Tv, Video, Clock, Trash2, FolderOpen, AlertTriangle, CheckCircle2 } from 'lucide-react'
 import './AdminProjects.css'
 
 const CATEGORIES = ['Animasi 2D', 'Animasi 3D', 'Motion Graphics', 'Explainer Video']
-const EMOJIS = ['🎨','🌐','⚡','🎬','🚀','🌿','🎪','📱','🏗️','🎭','🎮','🌟','💫','🎯','🔮']
+const ICONS = ['Palette', 'Globe', 'Zap', 'Film', 'Rocket', 'Leaf', 'Tent', 'Smartphone', 'Building', 'Gamepad2', 'Star', 'Sparkles', 'Target', 'Tv', 'Video']
+
+const iconMap = {
+  // Compatibility with old emoji data
+  '🎨': Palette,
+  '🌐': Globe,
+  '⚡': Zap,
+  '🎬': Film,
+  '🚀': Rocket,
+  '🌿': Leaf,
+  '🎪': Tent,
+  '📱': Smartphone,
+  '🏗️': Building,
+  '🎭': Film,
+  '🎮': Gamepad2,
+  '🌟': Star,
+  '💫': Sparkles,
+  '🎯': Target,
+  '🔮': Sparkles,
+  // Lucide Names
+  'Palette': Palette,
+  'Globe': Globe,
+  'Zap': Zap,
+  'Film': Film,
+  'Rocket': Rocket,
+  'Leaf': Leaf,
+  'Tent': Tent,
+  'Smartphone': Smartphone,
+  'Building': Building,
+  'Gamepad2': Gamepad2,
+  'Star': Star,
+  'Sparkles': Sparkles,
+  'Target': Target,
+  'Tv': Tv,
+  'Video': Video,
+}
 const COLORS = [
   { color: '#7c3aed', accent: '#a855f7', label: 'Ungu' },
   { color: '#06b6d4', accent: '#38bdf8', label: 'Biru' },
@@ -189,16 +225,36 @@ function ProjectForm({ initial, onSave, onCancel }) {
 
           {/* Emoji */}
           <div className="admin-form-group">
-            <label className="admin-label">Ikon / Emoji</label>
-            <div className="emoji-picker">
-              {EMOJIS.map(em => (
-                <button type="button" key={em}
-                  id={`pf-emoji-${em}`}
-                  className={`emoji-btn ${form.emoji === em ? 'emoji-btn--active' : ''}`}
-                  onClick={() => set('emoji', em)}>
-                  {em}
-                </button>
-              ))}
+            <label className="admin-label">Pilih Ikon Proyek</label>
+            <div className="icon-picker" style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginTop: '6px' }}>
+              {ICONS.map(iconName => {
+                const IconComp = iconMap[iconName] || Palette
+                return (
+                  <button
+                    type="button"
+                    key={iconName}
+                    id={`pf-icon-btn-${iconName}`}
+                    className={`icon-picker-btn ${form.emoji === iconName ? 'active' : ''}`}
+                    onClick={() => set('emoji', iconName)}
+                    style={{
+                      width: '36px',
+                      height: '36px',
+                      borderRadius: '8px',
+                      border: form.emoji === iconName ? '2px solid var(--color-accent-1)' : '1px solid var(--color-border-light)',
+                      background: form.emoji === iconName ? 'rgba(124, 58, 237, 0.1)' : 'var(--color-bg-card)',
+                      color: form.emoji === iconName ? 'var(--color-accent-1)' : 'var(--color-text-secondary)',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      transition: 'all 0.2s ease',
+                    }}
+                    title={iconName}
+                  >
+                    <IconComp size={16} />
+                  </button>
+                )
+              })}
             </div>
           </div>
 
@@ -231,7 +287,12 @@ function ProjectForm({ initial, onSave, onCancel }) {
               <div className="pvc-visual">
                 {imagePreview
                   ? <img src={imagePreview} alt="preview" className="pvc-img" style={{ objectPosition: `center ${form.imagePos || 50}%` }} />
-                  : <span className="pvc-emoji">{form.emoji}</span>
+                  : <span className="pvc-emoji" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+                      {(() => {
+                        const IconComponent = iconMap[form.emoji] || Film
+                        return <IconComponent size={32} className="project-icon-svg" />
+                      })()}
+                    </span>
                 }
               </div>
               <div className="pvc-info">
@@ -305,8 +366,8 @@ function AdminProjects() {
     <div className="admin-projects">
       {/* Toast */}
       {toast && (
-        <div className={`admin-toast admin-toast--${toast.type}`} role="alert">
-          {toast.type === 'success' ? '✅' : '🗑️'} {toast.msg}
+        <div className={`admin-toast admin-toast--${toast.type}`} role="alert" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+          {toast.type === 'success' ? <CheckCircle2 size={16} /> : <Trash2 size={16} />} {toast.msg}
         </div>
       )}
 
@@ -314,7 +375,9 @@ function AdminProjects() {
       {deleteConfirm && (
         <div className="confirm-modal" role="dialog" aria-modal="true" aria-label="Konfirmasi hapus">
           <div className="confirm-modal__inner">
-            <div className="confirm-icon">🗑️</div>
+            <div className="confirm-icon" style={{ background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Trash2 size={24} />
+            </div>
             <h3>Hapus Proyek?</h3>
             <p>Proyek <strong>"{deleteConfirm.title}"</strong> akan dihapus permanen.</p>
             <div className="confirm-actions">
@@ -367,8 +430,8 @@ function AdminProjects() {
           {/* Projects Table */}
           <div className="admin-card projects-table-card">
             {filtered.length === 0 ? (
-              <div className="empty-state">
-                <span>📂</span>
+              <div className="empty-state" style={{ padding: '3rem 1rem', textAlign: 'center' }}>
+                <FolderOpen size={48} style={{ color: '#64748b', opacity: 0.6, marginBottom: '1rem' }} />
                 <p>Tidak ada proyek ditemukan.</p>
                 <button className="admin-btn admin-btn--primary admin-btn--sm"
                   onClick={() => setView('add')}>+ Tambah Proyek</button>
@@ -394,7 +457,12 @@ function AdminProjects() {
                             <div className="proj-thumb" style={{'--pt-color': proj.color}}>
                               {proj.image
                                 ? <img src={proj.image} alt={proj.title} />
-                                : <span>{proj.emoji}</span>
+                                : <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%' }}>
+                                    {(() => {
+                                      const IconComponent = iconMap[proj.emoji] || Film
+                                      return <IconComponent size={16} className="project-icon-svg" style={{ color: '#fff' }} />
+                                    })()}
+                                  </span>
                               }
                             </div>
                             <div>
@@ -410,7 +478,11 @@ function AdminProjects() {
                         <td className="proj-year">{proj.year}</td>
                         <td>
                           <span className={`featured-badge ${proj.featured ? 'featured-badge--yes' : 'featured-badge--no'}`}>
-                            {proj.featured ? '⭐ Unggulan' : '—'}
+                            {proj.featured ? (
+                              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '3px' }}>
+                                <Star size={11} fill="#f59e0b" color="#f59e0b" /> Unggulan
+                              </span>
+                            ) : '—'}
                           </span>
                         </td>
                         <td>

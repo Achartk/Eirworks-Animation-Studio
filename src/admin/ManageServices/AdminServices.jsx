@@ -1,6 +1,42 @@
 import { useState } from 'react'
 import { useApp } from '../../context/AppContext'
+import { Palette, Globe, Zap, Film, Rocket, Leaf, Tent, Smartphone, Building, Gamepad2, Star, Sparkles, Target, Tv, Video, CheckCircle2 } from 'lucide-react'
 import './AdminServices.css'
+
+const iconMap = {
+  // Compatibility with old emoji data
+  '🎨': Palette,
+  '🌐': Globe,
+  '⚡': Zap,
+  '🎬': Film,
+  '🚀': Rocket,
+  '🌿': Leaf,
+  '🎪': Tent,
+  '📱': Smartphone,
+  '🏗️': Building,
+  '🎭': Film,
+  '🎮': Gamepad2,
+  '🌟': Star,
+  '💫': Sparkles,
+  '🎯': Target,
+  '🔮': Sparkles,
+  // Lucide Names
+  'Palette': Palette,
+  'Globe': Globe,
+  'Zap': Zap,
+  'Film': Film,
+  'Rocket': Rocket,
+  'Leaf': Leaf,
+  'Tent': Tent,
+  'Smartphone': Smartphone,
+  'Building': Building,
+  'Gamepad2': Gamepad2,
+  'Star': Star,
+  'Sparkles': Sparkles,
+  'Target': Target,
+  'Tv': Tv,
+  'Video': Video,
+}
 
 function AdminServices() {
   const { services, updateService } = useApp()
@@ -51,8 +87,8 @@ function AdminServices() {
   return (
     <div className="admin-services">
       {toast && (
-        <div className="admin-toast admin-toast--success" role="alert">
-          ✅ {toast}
+        <div className="admin-toast admin-toast--success" role="alert" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+          <CheckCircle2 size={16} /> {toast}
         </div>
       )}
 
@@ -70,16 +106,49 @@ function AdminServices() {
               /* ── EDIT MODE ── */
               <div className="service-edit-form">
                 <div className="service-edit-form__header">
-                  <span className="svc-icon-display">{editData.icon}</span>
+                  <span className="svc-icon-display" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+                    {(() => {
+                      const IconComponent = iconMap[editData.icon] || Palette
+                      return <IconComponent size={20} className="svc-icon-svg" />
+                    })()}
+                  </span>
                   <h3 className="svc-edit-title">Mengedit: {svc.title}</h3>
                 </div>
 
                 <div className="svc-form-grid">
                   <div className="svc-form-col">
                     <div className="admin-form-group">
-                      <label className="admin-label" htmlFor={`svc-icon-${svc.id}`}>Ikon Emoji</label>
-                      <input id={`svc-icon-${svc.id}`} className="admin-input" value={editData.icon}
-                        onChange={e => set('icon', e.target.value)} maxLength={4} style={{maxWidth:80}} />
+                      <label className="admin-label">Pilih Ikon Layanan</label>
+                      <div className="icon-picker" style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginTop: '6px' }}>
+                        {Object.keys(iconMap).filter(k => k.length > 2).map((iconName) => {
+                          const IconComp = iconMap[iconName]
+                          return (
+                            <button
+                              type="button"
+                              key={iconName}
+                              id={`svc-icon-btn-${iconName}`}
+                              className={`icon-picker-btn ${editData.icon === iconName ? 'active' : ''}`}
+                              onClick={() => set('icon', iconName)}
+                              style={{
+                                width: '36px',
+                                height: '36px',
+                                borderRadius: '8px',
+                                border: editData.icon === iconName ? '2px solid var(--color-accent-1)' : '1px solid var(--color-border-light)',
+                                background: editData.icon === iconName ? 'rgba(124, 58, 237, 0.1)' : 'var(--color-bg-card)',
+                                color: editData.icon === iconName ? 'var(--color-accent-1)' : 'var(--color-text-secondary)',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                transition: 'all 0.2s ease',
+                              }}
+                              title={iconName}
+                            >
+                              <IconComp size={16} />
+                            </button>
+                          )
+                        })}
+                      </div>
                     </div>
                     <div className="admin-form-group">
                       <label className="admin-label" htmlFor={`svc-title-${svc.id}`}>Judul Layanan</label>
@@ -151,7 +220,12 @@ function AdminServices() {
                     <div className="svc-preview" style={{'--sp-grad': editData.gradient}}>
                       <div className="svc-preview__bar"></div>
                       <div className="svc-preview__body">
-                        <span className="svc-preview__icon">{editData.icon}</span>
+                        <span className="svc-preview__icon" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+                          {(() => {
+                            const IconComponent = iconMap[editData.icon] || Palette
+                            return <IconComponent size={20} className="svc-icon-svg" />
+                          })()}
+                        </span>
                         <div>
                           <p className="svc-preview__title">{editData.title}</p>
                           <p className="svc-preview__price">{editData.price}</p>
@@ -175,8 +249,11 @@ function AdminServices() {
               /* ── VIEW MODE ── */
               <div className="service-view">
                 <div className="service-view__left">
-                  <div className="svc-icon-box" style={{background: svc.gradient}}>
-                    <span>{svc.icon}</span>
+                  <div className="svc-icon-box" style={{background: svc.gradient, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                    {(() => {
+                      const IconComponent = iconMap[svc.icon] || Palette
+                      return <IconComponent size={20} className="svc-icon-svg" style={{ color: '#fff' }} />
+                    })()}
                   </div>
                   <div className="svc-info">
                     <div className="svc-info-top">

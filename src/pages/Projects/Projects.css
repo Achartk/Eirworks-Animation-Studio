@@ -124,11 +124,18 @@
 }
 
 .project-emoji {
-  font-size: 4rem;
   position: relative;
   z-index: 1;
   animation: float 6s ease-in-out infinite;
   filter: drop-shadow(0 0 20px var(--proj-color));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.project-icon-svg {
+  color: #fff;
+  opacity: 0.9;
 }
 
 .project-glow {
@@ -467,22 +474,57 @@
 }
 
 @media (max-width: 600px) {
+  /* Filter bar scrollable horizontal on mobile */
   .filter-bar {
     width: 100%;
     border-radius: var(--radius-lg);
-    justify-content: center;
+    overflow-x: auto;
+    overflow-y: hidden;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 6px;
+  }
+
+  .filter-bar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .filter-btn {
+    flex-shrink: 0;
+    padding: 8px 16px;
+    font-size: 0.8rem;
   }
 
   .projects-grid {
     grid-template-columns: 1fr;
   }
 
+  /* Modal as bottom sheet on mobile */
   .project-modal {
-    padding: var(--spacing-sm);
+    padding: 0;
     align-items: flex-end;
   }
 
   .project-modal__inner {
     border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    max-height: 90vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+  }
+
+  /* iOS safe area for modal */
+  @supports (padding-bottom: env(safe-area-inset-bottom)) {
+    .project-modal__inner {
+      padding-bottom: calc(var(--spacing-xl) + env(safe-area-inset-bottom));
+    }
+  }
+}
+
+@media (max-width: 375px) {
+  .filter-btn {
+    padding: 7px 12px;
+    font-size: 0.75rem;
   }
 }

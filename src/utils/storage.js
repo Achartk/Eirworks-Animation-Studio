@@ -32,4 +32,6 @@ export const KEYS = {
   ANALYTICS: 'animastudio_analytics',
   AUTH: 'animastudio_auth',
   SITE_SETTINGS: 'animastudio_settings',
+  TESTIMONIALS: 'animastudio_testimonials',
+  MESSAGES: 'animastudio_messages',
 }

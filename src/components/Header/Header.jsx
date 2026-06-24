@@ -1,32 +1,15 @@
 import { useState, useEffect } from 'react'
 import { useApp } from '../../context/AppContext'
+import { Home, Layers, LayoutGrid, Info, Mail, Sun, Moon, Check, ArrowRight } from 'lucide-react'
 import './Header.css'
 
 const navItems = [
-  { id: 'home', label: 'Home', icon: '⊹' },
-  { id: 'services', label: 'Layanan', icon: '✦' },
-  { id: 'projects', label: 'Proyek', icon: '◈' },
-  { id: 'about', label: 'Tentang Kami', icon: '◉' },
+  { id: 'home',     label: 'Home',         Icon: Home },
+  { id: 'services', label: 'Layanan',       Icon: Layers },
+  { id: 'projects', label: 'Proyek',        Icon: LayoutGrid },
+  { id: 'about',    label: 'Tentang Kami',  Icon: Info },
+  { id: 'contact',  label: 'Kontak',        Icon: Mail },
 ]
-
-const SunIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-    <path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z" />
-  </svg>
-)
-
-const MoonIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-    <path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z" />
-    <path d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.734 1.734 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.734 1.734 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.734 1.734 0 0 0 1.097-1.097l.387-1.162zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L13.863.1z" />
-  </svg>
-)
-
-const CheckIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" className="ms-auto" style={{ marginLeft: 'auto' }}>
-    <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" />
-  </svg>
-)
 
 function Header({ activePage, setActivePage }) {
   const { theme, toggleTheme } = useApp()
@@ -49,6 +32,13 @@ function Header({ activePage, setActivePage }) {
     const handleScroll = () => setScrolled(window.scrollY > 20)
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  // Tutup mobile menu saat orientasi berubah
+  useEffect(() => {
+    const handleResize = () => { if (window.innerWidth > 900) setMenuOpen(false) }
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
   }, [])
 
   const handleNav = (id) => {
@@ -82,7 +72,7 @@ function Header({ activePage, setActivePage }) {
               onClick={() => handleNav(item.id)}
               aria-current={activePage === item.id ? 'page' : undefined}
             >
-              <span className="nav-icon">{item.icon}</span>
+              <item.Icon size={13} strokeWidth={2} className="nav-icon-svg" />
               {item.label}
             </button>
           ))}
@@ -96,7 +86,7 @@ function Header({ activePage, setActivePage }) {
               onClick={() => setThemeDropdownOpen(!themeDropdownOpen)}
               aria-label="Toggle theme"
             >
-              {theme === 'dark' ? <MoonIcon /> : <SunIcon />}
+              {theme === 'dark' ? <Moon size={16} /> : <Sun size={16} />}
             </button>
             {themeDropdownOpen && (
               <div className="theme-dropdown-menu">
@@ -104,15 +94,15 @@ function Header({ activePage, setActivePage }) {
                   className={`theme-dropdown-item ${theme === 'light' ? 'active' : ''}`}
                   onClick={() => { if (theme !== 'light') toggleTheme(); setThemeDropdownOpen(false); }}
                 >
-                  <SunIcon /> Light
-                  {theme === 'light' && <CheckIcon />}
+                  <Sun size={15} /> Light
+                  {theme === 'light' && <Check size={14} style={{ marginLeft: 'auto' }} />}
                 </button>
                 <button
                   className={`theme-dropdown-item ${theme === 'dark' ? 'active' : ''}`}
                   onClick={() => { if (theme !== 'dark') toggleTheme(); setThemeDropdownOpen(false); }}
                 >
-                  <MoonIcon /> Dark
-                  {theme === 'dark' && <CheckIcon />}
+                  <Moon size={15} /> Dark
+                  {theme === 'dark' && <Check size={14} style={{ marginLeft: 'auto' }} />}
                 </button>
               </div>
             )}
@@ -120,12 +110,10 @@ function Header({ activePage, setActivePage }) {
           <button
             id="nav-contact-btn"
             className="btn-primary header-cta-btn"
-            onClick={() => handleNav('services')}
+            onClick={() => handleNav('contact')}
           >
             Mulai Proyek
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
+            <ArrowRight size={15} strokeWidth={2.5} />
           </button>
         </div>
 
@@ -153,7 +141,7 @@ function Header({ activePage, setActivePage }) {
               className={`mobile-nav-link ${activePage === item.id ? 'mobile-nav-link--active' : ''}`}
               onClick={() => handleNav(item.id)}
             >
-              <span className="mobile-nav-icon">{item.icon}</span>
+              <item.Icon size={20} strokeWidth={1.8} className="mobile-nav-icon-svg" />
               {item.label}
             </button>
           ))}
@@ -164,20 +152,20 @@ function Header({ activePage, setActivePage }) {
                 className={`mobile-theme-btn ${theme === 'light' ? 'active' : ''}`}
                 onClick={() => { if (theme !== 'light') toggleTheme() }}
               >
-                <SunIcon /> Light
+                <Sun size={16} /> Light
               </button>
               <button
                 className={`mobile-theme-btn ${theme === 'dark' ? 'active' : ''}`}
                 onClick={() => { if (theme !== 'dark') toggleTheme() }}
               >
-                <MoonIcon /> Dark
+                <Moon size={16} /> Dark
               </button>
             </div>
           </div>
           <button
             id="mobile-nav-cta"
             className="btn-primary mobile-cta"
-            onClick={() => handleNav('services')}
+            onClick={() => handleNav('contact')}
           >
             Mulai Proyek →
           </button>

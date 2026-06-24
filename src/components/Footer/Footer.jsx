@@ -132,12 +132,19 @@ function Footer({ setActivePage }) {
               </svg>
               {siteSettings.phone || '+62 812-3456-789'}
             </a>
-            <p className="footer__contact-item footer__location">
+            <a
+              href="https://maps.google.com/?q=Eirworks+Studio"
+              target="_blank"
+              rel="noopener noreferrer"
+              id="footer-location"
+              className="footer__contact-item footer__location"
+              style={{ textDecoration: 'none' }}
+            >
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" />
               </svg>
-              {siteSettings.location || 'Jakarta, Indonesia'}
-            </p>
+              {siteSettings.location || 'Eirworks Studio, Denpasar'}
+            </a>
           </div>
         </div>
       </div>

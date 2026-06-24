@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { useApp } from '../../context/AppContext'
+import { Palette, Globe, Zap, Film, User, Star } from 'lucide-react'
 import './Home.css'
 
 const stats = [
@@ -11,34 +12,57 @@ const stats = [
 
 const features = [
   {
-    icon: '🎨',
+    Icon: Palette,
     title: 'Animasi 2D',
     desc: 'Karakter dan storytelling yang hidup dengan gaya artistik yang khas dan penuh ekspresi.',
   },
   {
-    icon: '🌐',
+    Icon: Globe,
     title: 'Animasi 3D',
     desc: 'Visualisasi tiga dimensi realistis untuk produk, arsitektur, dan konten sinematik.',
   },
   {
-    icon: '⚡',
+    Icon: Zap,
     title: 'Motion Graphics',
     desc: 'Grafis bergerak dinamis untuk presentasi, iklan, dan konten media sosial.',
   },
   {
-    icon: '🎬',
+    Icon: Film,
     title: 'Explainer Video',
     desc: 'Video penjelasan yang menarik untuk meningkatkan pemahaman dan konversi bisnis Anda.',
   },
 ]
 
-const clients = [
-  'TechVision', 'BrandCraft', 'PixelWave', 'NovaCorp', 'StartUp.io', 'MediaGroup'
+const testimonials = [
+  {
+    id: 't1',
+    name: 'Klien Eirworks (Dummy)',
+    role: 'Partner Kreatif',
+    avatar: '👤',
+    rating: 5,
+    text: 'Review ini bersifat sementara (dummy) sebagai visualisasi layout ulasan klien masa depan Eirworks Animation Studio.',
+  },
+  {
+    id: 't2',
+    name: 'Klien Eirworks (Dummy)',
+    role: 'Partner Bisnis',
+    avatar: '👤',
+    rating: 5,
+    text: 'Ulasan dummy untuk mendemonstrasikan penempatan ulasan. Ketika proyek resmi berjalan, ulasan nyata akan ditampilkan di sini.',
+  },
+  {
+    id: 't3',
+    name: 'Klien Eirworks (Dummy)',
+    role: 'Mitra Produksi',
+    avatar: '👤',
+    rating: 5,
+    text: 'Placeholder review untuk kebutuhan demonstrasi website. Semua data di section ulasan saat ini masih berupa data dummy.',
+  },
 ]
 
 function Home({ setActivePage }) {
   const heroRef = useRef(null)
-  const { siteSettings } = useApp()
+  const { siteSettings, testimonials } = useApp()
 
   const handleNav = (id) => {
     setActivePage(id)
@@ -64,11 +88,21 @@ function Home({ setActivePage }) {
             </div>
 
             <h1 className="hero__title">
-              <span className="hero__title-line">Wujudkan Ide Anda</span>
-              <br />
-              <span className="text-gradient">Menjadi Animasi</span>
-              <br />
-              <span className="hero__title-line">Yang Memukau</span>
+              {(() => {
+                const title = siteSettings.heroTitle || 'Wujudkan Ide Anda\nMenjadi Animasi\nYang Memukau'
+                const lines = title.split('\n')
+                return lines.map((line, idx) => {
+                  const isGradient = line.toLowerCase().includes('animasi') || (lines.length > 1 && idx === 1)
+                  return (
+                    <span key={idx}>
+                      <span className={isGradient ? 'text-gradient' : 'hero__title-line'}>
+                        {line}
+                      </span>
+                      {idx < lines.length - 1 && <br />}
+                    </span>
+                  )
+                })
+              })()}
             </h1>
 
             <p className="hero__subtitle">
@@ -149,7 +183,9 @@ function Home({ setActivePage }) {
                 className="feature-card"
                 style={{ animationDelay: `${i * 0.1}s` }}
               >
-                <div className="feature-card__icon">{feat.icon}</div>
+                <div className="feature-card__icon">
+                  <feat.Icon size={32} className="feature-icon-svg" />
+                </div>
                 <h3 className="feature-card__title">{feat.title}</h3>
                 <p className="feature-card__desc">{feat.desc}</p>
                 <button
@@ -172,7 +208,7 @@ function Home({ setActivePage }) {
             <div className="cta-orb cta-orb--1" aria-hidden="true"></div>
             <div className="cta-orb cta-orb--2" aria-hidden="true"></div>
             <div className="cta-content">
-              <div className="badge">🚀 Mulai Sekarang</div>
+              <div className="badge"><Zap size={12} style={{ marginRight: '4px' }} /> Mulai Sekarang</div>
               <h2 id="cta-title" className="cta-title">
                 Siap Mewujudkan <span className="text-gradient">Visi Anda?</span>
               </h2>
@@ -204,16 +240,52 @@ function Home({ setActivePage }) {
         </div>
       </section>
 
-      {/* ======= CLIENTS SECTION ======= */}
-      <section className="clients-section" aria-labelledby="clients-title">
+      {/* ======= TESTIMONIALS SECTION ======= */}
+      <section className="testimonials-section section-padding" aria-labelledby="testimonials-title">
         <div className="container">
-          <h2 id="clients-title" className="clients-title">Dipercaya Oleh</h2>
-          <div className="clients-marquee">
-            <div className="clients-track">
-              {[...clients, ...clients].map((c, i) => (
-                <div key={`${c}-${i}`} className="client-name">{c}</div>
-              ))}
-            </div>
+          <div className="section-header">
+             <div className="badge"><Star size={12} style={{ marginRight: '4px' }} /> Testimoni</div>
+            <h2 id="testimonials-title" className="section-title">
+              Apa Kata <span className="text-gradient">Klien Kami</span>
+            </h2>
+            <p className="section-subtitle">
+              Berikut adalah placeholder ulasan klien untuk demonstrasi tata letak. Website ini masih dalam tahap pengembangan awal.
+            </p>
+          </div>
+          <div className="testimonials-grid">
+            {testimonials.map((t, i) => (
+              <div key={t.id} id={`testimonial-${t.id}`} className="testimonial-card" style={{ animationDelay: `${i * 0.15}s` }}>
+                <div className="testimonial-card__quote" aria-hidden="true">"</div>
+                <p className="testimonial-card__text">{t.text}</p>
+                <div className="testimonial-card__stars" aria-label={`Rating: ${t.rating} dari 5`}>
+                  {Array.from({ length: t.rating }).map((_, si) => (
+                    <span key={si} aria-hidden="true">★</span>
+                  ))}
+                </div>
+                <div className="testimonial-card__author">
+                  <div className="testimonial-avatar">
+                    <User size={20} className="testimonial-avatar-svg" style={{ opacity: 0.8 }} />
+                  </div>
+                  <div className="testimonial-author-info">
+                    <strong className="testimonial-name">{t.name}</strong>
+                    <span className="testimonial-role">{t.role}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ======= BRAND SHOWCASE SECTION ======= */}
+      <section className="clients-section" aria-labelledby="clients-title" style={{ padding: '4rem 0', background: 'var(--color-bg-card)', borderTop: '1px solid var(--color-border-light)', borderBottom: '1px solid var(--color-border-light)' }}>
+        <div className="container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '1.5rem' }}>
+          <h2 id="clients-title" className="clients-title" style={{ fontSize: '1.1rem', textTransform: 'uppercase', letterSpacing: '2px', opacity: 0.6, margin: 0 }}>Dikembangkan & Diproduksi Oleh</h2>
+          <div className="brand-showcase-box" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.8rem' }}>
+            <img src="/logo.svg" alt="Eirworks Animation Studio" style={{ height: '75px', width: 'auto', objectFit: 'contain' }} className="brand-logo-img" />
+            <p style={{ margin: 0, fontSize: '0.95rem', color: 'var(--color-text-secondary)', fontWeight: 500, letterSpacing: '0.5px' }}>
+              Crafting stories, breathing life into pixels.
+            </p>
           </div>
         </div>
       </section>

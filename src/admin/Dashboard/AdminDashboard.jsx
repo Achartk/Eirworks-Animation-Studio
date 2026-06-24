@@ -1,5 +1,7 @@
 import { useMemo, useState, useEffect } from 'react'
 import { useApp } from '../../context/AppContext'
+import { useAuth } from '../../context/AuthContext'
+import { Eye, EyeOff, Calendar, BarChart2, Film, TrendingUp, Clock, Home, Layers, LayoutGrid, Info, Smartphone, Monitor } from 'lucide-react'
 import {
   getAnalytics,
   getVisitsByDay,
@@ -9,6 +11,21 @@ import {
   getDeviceSplit,
 } from '../../utils/analytics'
 import './AdminDashboard.css'
+
+const getPageBadge = (page) => {
+  switch (page) {
+    case 'home':
+      return <><Home size={12} style={{ marginRight: '4px', verticalAlign: 'middle', display: 'inline-flex', alignItems: 'center' }} /> Home</>
+    case 'services':
+      return <><Layers size={12} style={{ marginRight: '4px', verticalAlign: 'middle', display: 'inline-flex', alignItems: 'center' }} /> Layanan</>
+    case 'projects':
+      return <><LayoutGrid size={12} style={{ marginRight: '4px', verticalAlign: 'middle', display: 'inline-flex', alignItems: 'center' }} /> Proyek</>
+    case 'about':
+      return <><Info size={12} style={{ marginRight: '4px', verticalAlign: 'middle', display: 'inline-flex', alignItems: 'center' }} /> Tentang Kami</>
+    default:
+      return <><Film size={12} style={{ marginRight: '4px', verticalAlign: 'middle', display: 'inline-flex', alignItems: 'center' }} /> {page}</>
+  }
+}
 
 /* ─── Mini Line Chart ─── */
 function LineChart({ data, label, color = '#7c3aed' }) {
@@ -51,7 +68,7 @@ function LineChart({ data, label, color = '#7c3aed' }) {
         {values.map((v, i) => {
           const x = pad + (i / (values.length - 1 || 1)) * (w - pad * 2)
           const y = h - pad - (v / max) * (h - pad * 2)
-          return <circle key={i} cx={x} cy={y} r="3" fill={color} stroke="#0d1426" strokeWidth="2"/>
+          return <circle key={i} cx={x} cy={y} r="3" fill={color} stroke="var(--color-bg-card)" strokeWidth="2"/>
         })}
       </svg>
       <div className="chart-labels">
@@ -130,7 +147,14 @@ function PageViewsTable({ pageViews }) {
 }
 
 function AdminDashboard() {
-  const { projects, services } = useApp()
+  const { projects, services, siteSettings, fbActive } = useApp()
+  const { adminPassword } = useAuth()
+  const [localShowPass, setLocalShowPass] = useState(() => siteSettings?.showPasswordInDashboard || false)
+
+  useEffect(() => {
+    setLocalShowPass(siteSettings?.showPasswordInDashboard || false)
+  }, [siteSettings])
+
   // Re-read analytics on every render so data stays fresh after visits
   const [tick, setTick] = useState(0)
   useEffect(() => {
@@ -149,7 +173,7 @@ function AdminDashboard() {
     {
       label: 'Total Kunjungan',
       value: analytics.totalVisits.toLocaleString(),
-      icon: '👁',
+      icon: <Eye size={20} />,
       color: '#7c3aed',
       trend: '+12%',
       trendUp: true,
@@ -157,7 +181,7 @@ function AdminDashboard() {
     {
       label: 'Hari Ini',
       value: todayVisits,
-      icon: '📅',
+      icon: <Calendar size={20} />,
       color: '#06b6d4',
       trend: 'Hari ini',
       trendUp: true,
@@ -165,7 +189,7 @@ function AdminDashboard() {
     {
       label: 'Minggu Ini',
       value: weekVisits,
-      icon: '📊',
+      icon: <BarChart2 size={20} />,
       color: '#f59e0b',
       trend: '7 hari terakhir',
       trendUp: true,
@@ -173,7 +197,7 @@ function AdminDashboard() {
     {
       label: 'Total Proyek',
       value: projects.length,
-      icon: '🎬',
+      icon: <Film size={20} />,
       color: '#10b981',
       trend: `${services.filter(s => s.active).length} layanan aktif`,
       trendUp: true,
@@ -206,6 +230,54 @@ function AdminDashboard() {
             </svg>
             Refresh
           </button>
+        </div>
+      </div>
+
+      {/* Keamanan & Akses Panel */}
+      <div className="admin-card access-info-card" style={{ marginBottom: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem', padding: '1rem 1.5rem', border: '1px solid var(--color-border-light)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div className="access-info-icon" style={{ background: 'rgba(124, 58, 237, 0.1)', color: 'var(--color-accent-1)', padding: '8px', borderRadius: '8px', display: 'inline-flex' }}>
+            <Info size={20} />
+          </div>
+          <div>
+            <h3 style={{ fontSize: '0.9rem', fontWeight: 700, margin: 0, color: 'var(--color-text-primary)' }}>Akses & Keamanan Panel</h3>
+            <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', margin: '2px 0 0' }}>Kredensial login panel admin Eirworks</p>
+          </div>
+        </div>
+        <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+            <span style={{ fontSize: '0.7rem', textTransform: 'uppercase', color: 'var(--color-text-muted)', fontWeight: 600 }}>Tautan Akses</span>
+            <div style={{ display: 'flex', alignItems: 'center', background: 'var(--color-bg-secondary)', padding: '4px 10px', borderRadius: '6px', border: '1px solid var(--color-border-light)', height: '28px' }}>
+              <code style={{ fontSize: '0.8rem', color: 'var(--color-text-primary)', fontFamily: 'monospace', whiteSpace: 'nowrap' }}>{window.location.origin}/#admin</code>
+            </div>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+            <span style={{ fontSize: '0.7rem', textTransform: 'uppercase', color: 'var(--color-text-muted)', fontWeight: 600 }}>Password Admin</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'var(--color-bg-secondary)', padding: '4px 10px', borderRadius: '6px', border: '1px solid var(--color-border-light)', height: '28px' }}>
+              <code style={{ fontSize: '0.8rem', color: 'var(--color-text-primary)', fontFamily: 'monospace', letterSpacing: localShowPass ? 'normal' : '0.15em', whiteSpace: 'nowrap' }}>
+                {localShowPass ? adminPassword : '••••••••'}
+              </code>
+              <button
+                type="button"
+                onClick={() => setLocalShowPass(!localShowPass)}
+                style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-text-muted)', display: 'inline-flex', alignItems: 'center', padding: 0 }}
+                title={localShowPass ? 'Sembunyikan' : 'Tampilkan'}
+              >
+                {localShowPass ? <EyeOff size={14} /> : <Eye size={14} />}
+              </button>
+            </div>
+          </div>
+          {fbActive && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+              <span style={{ fontSize: '0.7rem', textTransform: 'uppercase', color: 'var(--color-text-muted)', fontWeight: 600 }}>Status Database</span>
+              <div style={{ display: 'flex', alignItems: 'center', background: 'var(--color-bg-secondary)', padding: '4px 10px', borderRadius: '6px', border: '1px solid rgba(16, 185, 129, 0.15)', height: '28px' }}>
+                <span style={{ fontSize: '0.8rem', color: '#10b981', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                  <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10b981', display: 'inline-block' }}></span>
+                  Google Firebase
+                </span>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -244,7 +316,7 @@ function AdminDashboard() {
           </div>
           {analytics.totalVisits === 0 ? (
             <div className="chart-empty">
-              <span>📈</span>
+              <TrendingUp size={36} className="empty-icon-svg" style={{ color: 'var(--color-accent-2)', opacity: 0.7, marginBottom: '0.5rem' }} />
               <p>Belum ada data traffic. Kunjungi website untuk mulai tracking!</p>
             </div>
           ) : (
@@ -258,17 +330,17 @@ function AdminDashboard() {
           <div className="device-chart">
             <div className="device-donut">
               <svg viewBox="0 0 80 80" className="donut-svg">
-                <circle cx="40" cy="40" r="30" fill="none" stroke="#1a2336" strokeWidth="14"/>
+                <circle cx="40" cy="40" r="30" fill="none" stroke="var(--color-bg-secondary)" strokeWidth="14"/>
                 <circle
                   cx="40" cy="40" r="30" fill="none"
-                  stroke="#7c3aed" strokeWidth="14"
+                  stroke="#7c3aed" strokeWidth={desktop === 0 ? 0 : 14}
                   strokeDasharray={`${desktop / (mobile + desktop || 1) * 188.5} 188.5`}
                   strokeLinecap="round"
                   transform="rotate(-90 40 40)"
                 />
                 <circle
                   cx="40" cy="40" r="30" fill="none"
-                  stroke="#06b6d4" strokeWidth="14"
+                  stroke="#06b6d4" strokeWidth={mobile === 0 ? 0 : 14}
                   strokeDasharray={`${mobile / (mobile + desktop || 1) * 188.5} 188.5`}
                   strokeLinecap="round"
                   transform={`rotate(${-90 + (desktop / (mobile + desktop || 1)) * 360} 40 40)`}
@@ -321,7 +393,7 @@ function AdminDashboard() {
         <h2 className="chart-title" style={{marginBottom:'1rem'}}>Kunjungan Terbaru</h2>
         {recentVisits.length === 0 ? (
           <div className="chart-empty">
-            <span>🕐</span>
+            <Clock size={36} className="empty-icon-svg" style={{ color: 'var(--color-accent-2)', opacity: 0.7, marginBottom: '0.5rem' }} />
             <p>Belum ada kunjungan tercatat.</p>
           </div>
         ) : (
@@ -341,15 +413,13 @@ function AdminDashboard() {
                       day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit'
                     })}</td>
                     <td>
-                      <span className="page-badge">
-                        {{ home:'🏠', services:'⚙️', projects:'🎬', about:'👥' }[v.page] || '📄'}
-                        {' '}
-                        {{ home:'Home', services:'Layanan', projects:'Proyek', about:'Tentang Kami' }[v.page] || v.page}
+                      <span className="page-badge" style={{ display: 'inline-flex', alignItems: 'center' }}>
+                        {getPageBadge(v.page)}
                       </span>
                     </td>
                     <td>
-                      <span className={`device-badge device-badge--${v.userAgent.toLowerCase()}`}>
-                        {v.userAgent === 'Mobile' ? '📱' : '🖥️'} {v.userAgent}
+                      <span className={`device-badge device-badge--${v.userAgent.toLowerCase()}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                        {v.userAgent === 'Mobile' ? <Smartphone size={12} /> : <Monitor size={12} />} {v.userAgent}
                       </span>
                     </td>
                   </tr>

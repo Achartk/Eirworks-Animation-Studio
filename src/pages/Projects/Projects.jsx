@@ -1,8 +1,44 @@
 import { useState } from 'react'
 import { useApp } from '../../context/AppContext'
+import { Palette, Globe, Zap, Film, Clock, MessageSquare, Workflow, HelpCircle, Rocket, Leaf, Tent, Smartphone, Building, Gamepad2, Star, Sparkles, Target, Tv, Video, LayoutGrid } from 'lucide-react'
 import './Projects.css'
 
 const CATEGORIES = ['Semua', 'Animasi 2D', 'Animasi 3D', 'Motion Graphics', 'Explainer Video']
+
+const iconMap = {
+  // Compatibility with old emoji data
+  '🎨': Palette,
+  '🌐': Globe,
+  '⚡': Zap,
+  '🎬': Film,
+  '🚀': Rocket,
+  '🌿': Leaf,
+  '🎪': Tent,
+  '📱': Smartphone,
+  '🏗️': Building,
+  '🎭': Film,
+  '🎮': Gamepad2,
+  '🌟': Star,
+  '💫': Sparkles,
+  '🎯': Target,
+  '🔮': Sparkles,
+  // Lucide Names
+  'Palette': Palette,
+  'Globe': Globe,
+  'Zap': Zap,
+  'Film': Film,
+  'Rocket': Rocket,
+  'Leaf': Leaf,
+  'Tent': Tent,
+  'Smartphone': Smartphone,
+  'Building': Building,
+  'Gamepad2': Gamepad2,
+  'Star': Star,
+  'Sparkles': Sparkles,
+  'Target': Target,
+  'Tv': Tv,
+  'Video': Video,
+}
 
 
 
@@ -25,7 +61,7 @@ function Projects() {
           <div className="orb orb--services-2"></div>
         </div>
         <div className="container page-hero__content">
-          <div className="badge">◈ Portfolio Kami</div>
+          <div className="badge"><LayoutGrid size={12} style={{ marginRight: '4px', verticalAlign: 'middle' }} /> Portfolio Kami</div>
           <h1 id="projects-title" className="page-hero__title">
             Hasil Kerja yang <span className="text-gradient">Berbicara Sendiri</span>
           </h1>
@@ -72,7 +108,12 @@ function Projects() {
                   {proj.image ? (
                     <img src={proj.image} alt={proj.title} className="project-img" style={{ objectPosition: `center ${proj.imagePos || 50}%`, objectFit: proj.image === '/logo.svg' ? 'contain' : 'cover' }} />
                   ) : (
-                    <div className="project-emoji">{proj.emoji}</div>
+                    <div className="project-emoji">
+                      {(() => {
+                        const IconComponent = iconMap[proj.emoji] || Film
+                        return <IconComponent size={48} className="project-icon-svg" />
+                      })()}
+                    </div>
                   )}
                   <div className="project-glow" aria-hidden="true"></div>
                 </div>
@@ -90,7 +131,10 @@ function Projects() {
                     ))}
                   </div>
                   <div className="project-footer">
-                    <span className="project-duration">⏱ {proj.duration}</span>
+                    <span className="project-duration">
+                      <Clock size={13} style={{ display: 'inline', marginRight: '4px', verticalAlign: 'middle' }} />
+                      {proj.duration}
+                    </span>
                     <button
                       className="project-view-btn"
                       id={`view-${proj.id}`}
@@ -126,7 +170,12 @@ function Projects() {
                   {proj.image ? (
                     <img src={proj.image} alt={proj.title} className="project-img" style={{ objectPosition: `center ${proj.imagePos || 50}%`, objectFit: proj.image === '/logo.svg' ? 'contain' : 'cover', padding: proj.image === '/logo.svg' ? '20px' : '0' }} />
                   ) : (
-                    <div className="project-emoji project-emoji--small">{proj.emoji}</div>
+                    <div className="project-emoji project-emoji--small">
+                      {(() => {
+                        const IconComponent = iconMap[proj.emoji] || Film
+                        return <IconComponent size={28} className="project-icon-svg" />
+                      })()}
+                    </div>
                   )}
                   <div className="project-glow" aria-hidden="true"></div>
                 </div>
@@ -145,10 +194,9 @@ function Projects() {
               </div>
             ))}
           </div>
-
           {filtered.length === 0 && (
             <div className="projects-empty" aria-live="polite">
-              <span>🎬</span>
+              <Film size={36} className="empty-icon-svg" style={{ color: 'var(--color-accent-2)', opacity: 0.7, marginBottom: '1rem' }} />
               <p>Tidak ada proyek dalam kategori ini.</p>
             </div>
           )}
@@ -181,7 +229,12 @@ function Projects() {
               {selectedProject.image ? (
                 <img src={selectedProject.image} alt={selectedProject.title} className="modal-img" style={{ objectPosition: `center ${selectedProject.imagePos || 50}%`, objectFit: selectedProject.image === '/logo.svg' ? 'contain' : 'cover', padding: selectedProject.image === '/logo.svg' ? '20px' : '0' }} />
               ) : (
-                <span className="modal-emoji">{selectedProject.emoji}</span>
+                <span className="modal-emoji">
+                  {(() => {
+                    const IconComponent = iconMap[selectedProject.emoji] || Film
+                    return <IconComponent size={64} className="project-icon-svg" />
+                  })()}
+                </span>
               )}
             </div>
             <div className="modal-content">

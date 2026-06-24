@@ -451,3 +451,55 @@ button {
     --spacing-3xl: 4rem;
   }
 }
+
+/* ===================================
+   MOBILE TOUCH & ACCESSIBILITY
+   =================================== */
+
+/* Better tap targets for mobile */
+button,
+a,
+[role="button"] {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Minimum touch target size (WCAG AA) */
+button:not(.nav-link):not(.filter-btn):not(.theme-dropdown-item),
+a.btn-primary,
+a.btn-outline {
+  min-height: 44px;
+}
+
+/* Prevent text size adjustment on orientation change (iOS) */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Smooth scrolling on iOS */
+* {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Focus styles for accessibility */
+:focus-visible {
+  outline: 2px solid var(--color-accent-2);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ===================================
+   SR-ONLY (Accessibility)
+   =================================== */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}

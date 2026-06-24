@@ -1,61 +1,31 @@
+import { Target, Handshake, Lightbulb, Clock, Info, Gem, BookOpen } from 'lucide-react'
 import './About.css'
-
-const team = [
-  {
-    name: 'Rizky Pratama',
-    role: 'Founder & Creative Director',
-    bio: 'Pengalaman 8 tahun di industri animasi internasional. Alumni Ringling College of Art & Design.',
-    emoji: '👨‍🎨',
-    skills: ['2D Animation', 'Storyboarding', 'Art Direction'],
-  },
-  {
-    name: 'Anisa Dewi',
-    role: '3D Lead Artist',
-    bio: 'Spesialis character & environment 3D. Pernah bekerja untuk studio animasi di Singapura dan Korea.',
-    emoji: '👩‍💻',
-    skills: ['Blender', 'Cinema 4D', 'Unreal Engine'],
-  },
-  {
-    name: 'Dimas Fajar',
-    role: 'Motion Graphics Designer',
-    bio: 'Desainer motion grafis dengan keahlian di After Effects dan Lottie. Berpengalaman dalam video iklan.',
-    emoji: '🎬',
-    skills: ['After Effects', 'Motion Design', 'Lottie'],
-  },
-  {
-    name: 'Sari Melati',
-    role: 'Project Manager',
-    bio: 'Memastikan setiap proyek berjalan tepat waktu dan sesuai ekspektasi klien dengan koordinasi yang solid.',
-    emoji: '📋',
-    skills: ['Project Management', 'Client Relations', 'Agile'],
-  },
-]
 
 const values = [
   {
-    icon: '🎯',
+    Icon: Target,
     title: 'Kualitas Tanpa Kompromi',
     desc: 'Setiap frame yang kami hasilkan melewati standar kualitas ketat untuk memastikan output terbaik.',
   },
   {
-    icon: '🤝',
+    Icon: Handshake,
     title: 'Kolaborasi Terbuka',
     desc: 'Kami percaya hasil terbaik lahir dari komunikasi yang jujur dan keterlibatan klien di setiap tahap.',
   },
   {
-    icon: '💡',
+    Icon: Lightbulb,
     title: 'Inovasi Kreatif',
     desc: 'Selalu mengikuti tren terkini dan teknik animasi terbaru untuk menghadirkan karya yang relevan.',
   },
   {
-    icon: '⏰',
+    Icon: Clock,
     title: 'Tepat Waktu',
     desc: 'Komitmen penuh terhadap deadline tanpa mengorbankan kualitas adalah janji kami kepada klien.',
   },
 ]
 
 const milestones = [
-  { year: '2019', event: 'Eirworks Animation Studio didirikan di Jakarta' },
+  { year: '2019', event: 'Eirworks Animation Studio didirikan di Denpasar' },
   { year: '2020', event: 'Menyelesaikan 30+ proyek animasi komersial perdana' },
   { year: '2021', event: 'Tim berkembang menjadi 8 orang kreator profesional' },
   { year: '2022', event: 'Bermitra dengan brand nasional dan startup teknologi' },
@@ -73,7 +43,7 @@ function About() {
           <div className="orb orb--services-2"></div>
         </div>
         <div className="container page-hero__content">
-          <div className="badge">◉ Tentang Kami</div>
+          <div className="badge"><Info size={12} style={{ marginRight: '4px', verticalAlign: 'middle' }} /> Tentang Kami</div>
           <h1 id="about-title" className="page-hero__title">
             Studio Animasi yang <span className="text-gradient">Lahir dari Passion</span>
           </h1>
@@ -88,12 +58,12 @@ function About() {
       <section className="story-section section-padding" aria-labelledby="story-title">
         <div className="container story-grid">
           <div className="story-text">
-            <div className="badge"> Kisah Kami</div>
+            <div className="badge"><BookOpen size={12} style={{ marginRight: '4px', verticalAlign: 'middle' }} /> Kisah Kami</div>
             <h2 id="story-title" className="story-title">
               Dari Mimpi Kecil Menjadi <span className="text-gradient">Studio Besar</span>
             </h2>
             <p>
-              Eirworks Animation Studio lahir pada 2019 dari sebuah kamar kecil di Jakarta, dengan modal
+              Eirworks Animation Studio lahir pada 2019 dari sebuah kamar kecil di Denpasar, dengan modal
               semangat dan laptop tua. Pendiri kami, Rizky Pratama, percaya bahwa animasi
               berkualitas tinggi seharusnya bisa diakses oleh bisnis lokal Indonesia.
             </p>
@@ -121,7 +91,7 @@ function About() {
       <section className="values-section section-padding" aria-labelledby="values-title">
         <div className="container">
           <div className="section-header">
-            <div className="badge">💎 Nilai Kami</div>
+            <div className="badge"><Gem size={12} style={{ marginRight: '4px', verticalAlign: 'middle' }} /> Nilai Kami</div>
             <h2 id="values-title" className="section-title">
               Prinsip yang <span className="text-gradient">Memandu Kami</span>
             </h2>
@@ -129,7 +99,9 @@ function About() {
           <div className="values-grid">
             {values.map((v, i) => (
               <div key={v.title} id={`value-card-${i}`} className="value-card">
-                <div className="value-card__icon">{v.icon}</div>
+                <div className="value-card__icon">
+                  <v.Icon size={32} className="value-icon-svg" />
+                </div>
                 <h3 className="value-card__title">{v.title}</h3>
                 <p className="value-card__desc">{v.desc}</p>
               </div>
